@@ -22,13 +22,13 @@ export class ProductsController {
     }
 
     @Post('')
-    createProduct(@Body() createProductDto: CreateProductDto): string {
-        return this.productsService.createProduct(createProductDto);
+    async createProduct(@Body() createProductDto: CreateProductDto): Promise<Product> {
+        return await this.productsService.createProduct(createProductDto);
     }
 
     @Put(':id')
-    updateProduct(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto): string {
-        return this.productsService.updateProduct(id, updateProductDto);
+    async updateProduct(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto): Promise<Product> {
+        return await this.productsService.updateProduct(id, updateProductDto);
     }
 
     @Patch(':id')
@@ -37,7 +37,7 @@ export class ProductsController {
     }
 
     @Delete(':id')
-    deleteProduct(@Param('id') id: string): string {
-        return this.productsService.deleteProduct(id);
+    async deleteProduct(@Param('id') id: string): Promise<Product> {
+        return await this.productsService.deleteProduct(id);
     }
 }
