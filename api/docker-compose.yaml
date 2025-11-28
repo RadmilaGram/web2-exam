@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:16
+    container_name: database
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    networks:
+      - web2-2025-is41r
+    volumes:
+      - ./database-data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    networks:
+      - web2-2025-is41r
+    volumes:
+      - ./pgadmin-data:/var/lib/pgadmin
+
+networks:
+  web2-2025-is41r:
+    driver: bridge

@@ -1,9 +1,17 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, Injectable } from "@nestjs/common";
 import { CreateProductDto } from "./product.create.dto";
 import { UpdateProductDto } from "./product.update.dto";
+import { Repository } from "typeorm";
+import { Product } from "./product.entity";
+import { InjectRepository } from "@nestjs/typeorm";
 
 @Injectable({})
 export class ProductsService {
+
+    constructor(
+        @InjectRepository(Product)
+        private readonly productRepository: Repository<Product>
+    ) {}
 
     private products = [{
         id: '1',
@@ -17,12 +25,17 @@ export class ProductsService {
     }
     ];
 
-    getProducts(): string {
-        return JSON.stringify(this.products);
+    async getProducts(): Promise<Product[]> {
+        return await this.productRepository.find();
     }
 
-    getProductById(id: string): string {
-        return JSON.stringify(this.products.find(product => product.id === id));
+    async getProductById(id: number): Promise<Product> {
+        try {
+            return await this.productRepository.findOneByOrFail({id});
+        } catch (error) {
+            return {id: 0, name: 'Not Found', price: 0};    
+        }
+        
     }
 
     createProduct(createProductDto: CreateProductDto): string {
