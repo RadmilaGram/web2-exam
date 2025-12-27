@@ -1,22 +1,29 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+
 import { ProductsModule } from './modules/products/products.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { CategoriesModule } from './modules/products/categories/categories.module';
+import { ReviewsModule } from './modules/products/reviews/reviews.module';
+import { EmployeesModule } from './modules/products/employees/employees.module';
 
 @Module({
   imports: [
-    ProductsModule,
+    // делаем .env глобальным
     ConfigModule.forRoot({ isGlobal: true }),
+
+    // подключаем TypeORM + Postgres
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => {
         return {
           type: 'postgres',
-          host: 'localhost',
-          port: 5432,
+          host: 'localhost', // если Nest в Docker – потом поменяем на 'database'
+          port: 5435,
           username: 'user',
           password: 'password',
           database: 'mydatabase',
@@ -26,6 +33,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         };
       },
     }),
+
+    ProductsModule,
+    CategoriesModule,
+    ReviewsModule,
+    EmployeesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

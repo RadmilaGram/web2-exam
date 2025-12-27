@@ -9,9 +9,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: mydatabase
     ports:
-      - "5432:5432"
-    networks:
-      - web2-2025-is41r
+      - '5435:5432'
     volumes:
       - ./database-data:/var/lib/postgresql/data
 
@@ -22,12 +20,10 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@example.com
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
-      - "8080:80"
-    networks:
-      - web2-2025-is41r
+      - '8080:80'
     volumes:
       - ./pgadmin-data:/var/lib/pgadmin
 
 networks:
-  web2-2025-is41r:
+  default:
     driver: bridge
