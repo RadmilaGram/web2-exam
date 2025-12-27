@@ -10,6 +10,10 @@ import { CategoriesModule } from './modules/products/categories/categories.modul
 import { ReviewsModule } from './modules/products/reviews/reviews.module';
 import { EmployeesModule } from './modules/products/employees/employees.module';
 
+import { AirlinesModule } from './modules/airlines/airlines.module';
+import { FlightRoutesModule } from './modules/flight-routes/flight-routes.module';
+import { FlightsModule } from './modules/flights/flights.module';
+
 @Module({
   imports: [
     // делаем .env глобальным
@@ -38,6 +42,9 @@ import { EmployeesModule } from './modules/products/employees/employees.module';
     CategoriesModule,
     ReviewsModule,
     EmployeesModule,
+    AirlinesModule,
+    FlightRoutesModule,
+    FlightsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
